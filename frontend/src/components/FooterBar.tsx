@@ -10,29 +10,28 @@ export default function FooterBar() {
         width: "100%",
         mt: 4,
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between", // Adjusts items to the edges and center
+        alignItems: "center", // Vertically centers items
       }}
     >
-      <Stepper activeStep={-1} alternativeLabel>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="end"
-        sx={{ width: "100%", pt: 2 }}
-      >
-        <img
-          src="https://www.aingoi.com/wp-content/uploads/2019/01/logo-vector-universidad-deusto.jpg"
-          alt="Logo"
-          style={{ width: 100, height: "auto" }}
-        />
-      </Stack>
+      <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+        {" "}
+        {/* Centers the stepper */}
+        <Stepper activeStep={-1} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+      </Box>
+
+      <img
+        src="https://www.aingoi.com/wp-content/uploads/2019/01/logo-vector-universidad-deusto.jpg"
+        alt="Logo"
+        style={{ width: 100, height: "auto" }}
+      />
     </Box>
   );
 }
