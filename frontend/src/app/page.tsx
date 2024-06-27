@@ -5,7 +5,7 @@ import MainLayout from "@/layout/MainLayout";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={{ height: "100%" }}>
       <MainLayout />
     </main>
   );

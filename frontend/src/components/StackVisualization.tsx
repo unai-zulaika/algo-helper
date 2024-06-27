@@ -59,13 +59,16 @@ const StackVisualization: React.FC<StackVisualizationProps> = ({ stack }) => {
       ref={containerRef}
       style={{
         display: "flex",
-        flexGrow: 1,
+        flexGrow: 0,
         justifyContent: "center",
         alignItems: "center",
         height: "100%",
       }}
     >
-      <svg ref={svgRef} style={{ height: "100%", width: "100%" }}></svg>
+      <svg
+        ref={svgRef}
+        style={{ height: "100%", width: "100%", flexGrow: 0 }}
+      ></svg>
     </div>
   );
 };

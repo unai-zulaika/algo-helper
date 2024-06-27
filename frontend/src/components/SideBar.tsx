@@ -10,6 +10,7 @@ export default function HeaderBar() {
         flexGrow: 0,
         justifyContent: "space-between",
         padding: "5px",
+        maxHeight: "100%",
       }}
     >
       HEHE
