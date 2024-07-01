@@ -1,23 +1,117 @@
 import React, { useState } from "react";
-import Box from "@mui/joy/Box";
 import SideBar from "@/components/SideBar";
 import HeaderBar from "@/components/HeaderBar";
 import Divider from "@mui/joy/Divider";
-import StackStructre from "./StackStructure";
 import Stack from "@mui/joy/Stack";
 import ProjectsTabs from "@/components/ProjectsTabs";
 import FooterBar from "@/components/FooterBar";
-import { Resizable } from "re-resizable";
 import Statement from "@/components/Statement";
+import DiagramFlow from "@/components/DiagramFlow";
+import ResizeableExercisesList from "@/components/ResizeableExercisesList";
+import ResizeableStatementData from "@/components/ResizeableStatementData";
+import ResizeableChat from "@/components/ResizeableChat";
+import CodeEditor from "@/components/CodeEditor";
+import Finished from "@/components/Finished";
+
+const defaultExerciseData = {
+  title: "Exercise title",
+  description:
+    "Exercise explanation. This is a long text that explains the exercise",
+  examples: [
+    {
+      input: "A = [3, 7, 1, 5, 2]",
+      output: "A = [1, 2, 3, 5, 7]",
+    },
+  ],
+};
 
 export default function MainLayout() {
+  const [exerciseStatementData, setExerciseStatementData] = useState({});
   const [isListVisible, setIsListVisible] = useState(true);
   const toggleListVisibility = () => setIsListVisible(!isListVisible);
-  const [panelWidth, setPanelWidth] = useState(320); // Initial width of the panel
+  const [panelWidth, setPanelWidth] = useState<number>(320); // Initial width of the panel
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentResizeableList, setCurrentResizeableList] = useState<number>(0);
 
-  const handleResizeStop = (e, direction, ref, d) => {
+  const handleResizeStop = (
+    _e: any,
+    _direction: any,
+    _ref: any,
+    d: { width: number }
+  ) => {
     setPanelWidth(panelWidth + d.width); // Adjust the width based on the delta
   };
+
+  const incrementStep = () => {
+    setCurrentStep((currentStep) => currentStep + 1);
+  };
+
+  const decrementStep = () => {
+    setCurrentStep((currentStep) => currentStep - 1);
+  };
+
+  const updateResizeableList = (currentNumber: number) => {
+    if (currentNumber == currentResizeableList) toggleListVisibility();
+    else {
+      setCurrentResizeableList(currentNumber);
+      if (!isListVisible) toggleListVisibility();
+    }
+  };
+
+  const renderSwitch = (param: number) => {
+    switch (param) {
+      case 0:
+        return <Statement exerciseStatementData={exerciseStatementData} />;
+      case 1:
+        return <DiagramFlow />;
+      case 2:
+        return <CodeEditor />;
+      case 3:
+        return <Finished />;
+      default:
+        return "OOps! Error!";
+    }
+  };
+
+  const renderResizeable = (param: number) => {
+    switch (param) {
+      case 0:
+        return (
+          <ResizeableExercisesList
+            panelWidth={panelWidth}
+            handleResizeStop={handleResizeStop} // Pass the function to the child component
+          />
+        );
+      case 1:
+        return (
+          <ResizeableStatementData
+            panelWidth={panelWidth}
+            handleResizeStop={handleResizeStop} // Pass the function to the child component
+            exerciseData={exerciseStatementData}
+          />
+        );
+      case 2:
+        return (
+          <ResizeableChat
+            panelWidth={panelWidth}
+            handleResizeStop={handleResizeStop} // Pass the function to the child component
+          />
+        );
+      default:
+        return (
+          <ResizeableExercisesList
+            panelWidth={panelWidth}
+            handleResizeStop={handleResizeStop} // Pass the function to the child component
+          />
+        );
+    }
+  };
+
+  // do once
+  React.useEffect(() => {
+    // TODO: remove this
+    setExerciseStatementData(defaultExerciseData);
+  }, []);
 
   return (
     <Stack
@@ -41,35 +135,27 @@ export default function MainLayout() {
           }}
         />
       </Stack>
-      <Stack sx={{ margin: 0, padding: 0, flex: "1 1 0", maxHeight: "100%" }}>
+      <Stack
+        sx={{
+          margin: 0,
+          padding: 0,
+          flex: "1 1 0",
+          maxHeight: "100%",
+        }}
+      >
         <Stack direction="row" sx={{ flex: "1 1 0", maxHeight: "100%" }}>
-          <SideBar toggleListVisibility={toggleListVisibility} />
+          <SideBar updateResizeableList={updateResizeableList} />
           <Divider
             orientation="vertical"
             sx={{ borderLeft: "1px solid black" }}
           />
-          {isListVisible && (
-            <Resizable
-              handleClasses={{
-                top: "pointer-events-none",
-                bottom: "pointer-events-none",
-                left: "pointer-events-none",
-                topRight: "pointer-events-none",
-                bottomRight: "pointer-events-none",
-                bottomLeft: "pointer-events-none",
-                topLeft: "pointer-events-none",
-              }}
-              size={{ width: panelWidth, height: "100%" }} // Use state for dynamic width, fixed height
-              onResizeStop={handleResizeStop}
-              maxHeight="100%" // Prevent vertical resizing
-              minHeight="100%" // Match the container's height
-              maxWidth="100%" // Optional: Limit the maximum width if needed
-              // Other props for Resizable
-              style={{ borderRight: "1px solid black", maxHeight: "100%" }}
-            >
-              Sample with default size
-            </Resizable>
-          )}
+          {
+            isListVisible && renderResizeable(currentResizeableList)
+            // <ResizeableExercisesList
+            //   panelWidth={panelWidth}
+            //   handleResizeStop={handleResizeStop} // Pass the function to the child component
+            // />
+          }
           <Stack spacing={2} sx={{ flexGrow: 1 }}>
             <ProjectsTabs />
             {/* Wrap Statement in a div or another Stack for better control over its styling */}
@@ -79,12 +165,16 @@ export default function MainLayout() {
                 overflowY: "scroll",
               }}
             >
-              <Statement />
+              {renderSwitch(currentStep)}
             </div>
           </Stack>
         </Stack>
       </Stack>
-      <FooterBar />
+      <FooterBar
+        currentStep={currentStep}
+        incrementStep={incrementStep}
+        decrementStep={decrementStep}
+      />
     </Stack>
   );
 }

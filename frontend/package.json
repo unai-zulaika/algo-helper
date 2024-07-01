@@ -16,10 +16,13 @@
     "@mui/x-data-grid": "^7.8.0",
     "d3": "^7.9.0",
     "next": "14.2.4",
+    "prismjs": "^1.29.0",
     "re-resizable": "^6.9.17",
     "react": "^18",
     "react-d3-library": "^1.1.8",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-simple-code-editor": "^0.13.1",
+    "reactflow": "^11.11.4"
   },
   "devDependencies": {
     "@types/node": "^20",

@@ -1,14 +1,12 @@
 import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/joy/Box";
-import Checkbox from "@mui/joy/Checkbox";
 import Chip from "@mui/joy/Chip";
 import Radio from "@mui/joy/Radio";
 import RadioGroup from "@mui/joy/RadioGroup";
-import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
-export default function CheckboxChip() {
-  const [selected, setSelected] = React.useState<string>([]);
+export default function RadioChip() {
+  const [selected, setSelected] = React.useState("");
 
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
@@ -20,14 +18,14 @@ export default function CheckboxChip() {
           sx={{ flexWrap: "wrap", gap: 1 }}
         >
           {[
-            "Array",
-            "Single Linked List",
-            "Double Linked List",
-            "Queue",
-            "Stack",
-            "Binary tree",
-            "Binary search tree",
-            "RL siblings tree",
+            "O(1)",
+            "O(log n)",
+            "O(n)",
+            "O(n log n)",
+            "O(n^2)",
+            "O(n^3)",
+            "O(2^n)",
+            "O(n!)",
           ].map((name) => {
             const checked = selected === name;
             return (

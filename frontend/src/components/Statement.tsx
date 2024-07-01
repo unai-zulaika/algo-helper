@@ -14,7 +14,11 @@ const columns: GridColDef[] = [
   { field: "col2", headerName: "Output", width: 150, editable: true },
 ];
 
-export default function Statement() {
+interface StatementProps {
+  exerciseStatementData: {};
+}
+
+export default function Statement({ exerciseStatementData }: StatementProps) {
   return (
     <Box
       sx={{
@@ -22,12 +26,11 @@ export default function Statement() {
         flexDirection: "column",
         flexGrow: 1,
         padding: "30px",
+        height: "85vh",
       }}
     >
-      <Typography level="h1">Exercise title</Typography>
-      <Typography>
-        Exercise explanation. This is a long text that explains the exercise
-      </Typography>
+      <Typography level="h1">{exerciseStatementData.title}</Typography>
+      <Typography>{exerciseStatementData.description}</Typography>
       <StatementQuestionsAccordion />
       <Divider sx={{ marginTop: 3, marginBottom: 3 }} />
       <Typography level="h1">Examples</Typography>

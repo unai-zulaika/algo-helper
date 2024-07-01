@@ -1,10 +1,20 @@
 import React from "react";
 import { Box, Stepper, Step, StepLabel, Stack } from "@mui/material";
-import { Button, Divider } from "@mui/joy";
+import { Button, Divider, Link } from "@mui/joy";
 
-const steps = ["Step 1", "Step 2", "Step 3", "Step 4", "Step 5", "Step 6"];
+const steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
 
-export default function FooterBar() {
+interface FooterBarProps {
+  currentStep: number; // Define 'currentStep' as a number
+  incrementStep: () => void;
+  decrementStep: () => void;
+}
+
+export default function FooterBar({
+  currentStep,
+  incrementStep,
+  decrementStep,
+}: FooterBarProps) {
   return (
     <Stack direction="column">
       <Divider sx={{ borderTop: "1px solid black" }} />
@@ -20,11 +30,11 @@ export default function FooterBar() {
           margin: 0,
         }}
       >
-        <img
-          src="https://www.aingoi.com/wp-content/uploads/2019/01/logo-vector-universidad-deusto.jpg"
-          alt="Logo"
-          style={{ width: 100, height: "auto" }}
-        />
+        {currentStep > 0 && (
+          <Button onClick={decrementStep} size="sm" sx={{ margin: "10px" }}>
+            Previous
+          </Button>
+        )}
         <Box
           sx={{
             flexGrow: 1,
@@ -34,7 +44,7 @@ export default function FooterBar() {
         >
           {" "}
           {/* Centers the stepper */}
-          <Stepper activeStep={-1} alternativeLabel>
+          <Stepper activeStep={currentStep} alternativeLabel>
             {steps.map((label) => (
               <Step key={label}>
                 {" "}
@@ -43,10 +53,12 @@ export default function FooterBar() {
             ))}
           </Stepper>
         </Box>
-        <Button sx={{ marginRight: 3 }} onClick={function () {}}>
-          {" "}
-          {" next"}{" "}
-        </Button>
+        {currentStep < 3 && (
+          <Button onClick={incrementStep} sx={{ margin: "10px" }} size="sm">
+            {"Next"}
+            {/* TODO: css button to be smaller Next */}
+          </Button>
+        )}
       </Box>
     </Stack>
   );

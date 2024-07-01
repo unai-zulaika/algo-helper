@@ -22,10 +22,18 @@ export default function HeaderBar() {
       sx={{
         display: "flex",
         flexGrow: 1,
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         padding: "6px",
       }}
     >
+      <img
+        src="	https://seeklogo.com/images/U/universidad-de-deusto-logo-790FC33A0F-seeklogo.com.png"
+        alt="Logo"
+        style={{
+          width: 100,
+          height: "auto",
+        }}
+      />
       <Box
         sx={{
           display: "flex",
