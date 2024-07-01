@@ -15,26 +15,17 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import ViewSidebarOutlinedIcon from "@mui/icons-material/ViewSidebarOutlined";
 
-interface HeaderBarProps {
-  toggleListVisibility: () => void; // Assuming the function takes no arguments and returns nothing
-}
-
-export default function HeaderBar({ toggleListVisibility }: HeaderBarProps) {
+export default function HeaderBar() {
   return (
     <Box
       sx={{
         display: "flex",
         flexGrow: 1,
-        justifyContent: "space-between",
+        justifyContent: "flex-end",
         padding: "6px",
       }}
     >
-      <IconButton onClick={toggleListVisibility} sx={{ mr: 2 }}>
-        <ViewSidebarOutlinedIcon />
-      </IconButton>
-
       <Box
         sx={{
           display: "flex",

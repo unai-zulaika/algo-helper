@@ -8,6 +8,7 @@ import Stack from "@mui/joy/Stack";
 import ProjectsTabs from "@/components/ProjectsTabs";
 import FooterBar from "@/components/FooterBar";
 import { Resizable } from "re-resizable";
+import Statement from "@/components/Statement";
 
 export default function MainLayout() {
   const [isListVisible, setIsListVisible] = useState(true);
@@ -25,13 +26,12 @@ export default function MainLayout() {
         margin: 0,
         padding: 0,
         flex: "1 1 0",
-        height: "100vh",
-        maxHeight: "100vh",
+        // maxHeight: "100vh",
         flexWrap: "wrap",
       }}
     >
       <Stack sx={{ width: "100%", margin: 0, padding: 0, flexGrow: 0 }}>
-        <HeaderBar toggleListVisibility={toggleListVisibility} />
+        <HeaderBar />
         <Divider
           sx={{
             width: "100%",
@@ -43,7 +43,7 @@ export default function MainLayout() {
       </Stack>
       <Stack sx={{ margin: 0, padding: 0, flex: "1 1 0", maxHeight: "100%" }}>
         <Stack direction="row" sx={{ flex: "1 1 0", maxHeight: "100%" }}>
-          <SideBar />
+          <SideBar toggleListVisibility={toggleListVisibility} />
           <Divider
             orientation="vertical"
             sx={{ borderLeft: "1px solid black" }}
@@ -72,7 +72,15 @@ export default function MainLayout() {
           )}
           <Stack spacing={2} sx={{ flexGrow: 1 }}>
             <ProjectsTabs />
-            <StackStructre />
+            {/* Wrap Statement in a div or another Stack for better control over its styling */}
+            <div
+              style={{
+                maxHeight: "calc(100vh - 20vh)",
+                overflowY: "scroll",
+              }}
+            >
+              <Statement />
+            </div>
           </Stack>
         </Stack>
       </Stack>

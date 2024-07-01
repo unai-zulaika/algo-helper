@@ -8,7 +8,7 @@ import { Divider } from "@mui/joy";
 export default function ProjectsTabs() {
   const [index, setIndex] = React.useState(0);
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>
+    <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 0 }}>
       <Tabs
         value={index}
         onChange={(event, value) => setIndex(value as number)}
