@@ -1,6 +1,7 @@
 import React from "react";
-import { Box, Stepper, Step, StepLabel, Stack } from "@mui/material";
+import { Box, Stepper, Step, Stack, StepIndicator } from "@mui/joy";
 import { Button, Divider, Link } from "@mui/joy";
+import { Check } from "@mui/icons-material";
 
 const steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
 
@@ -44,14 +45,23 @@ export default function FooterBar({
         >
           {" "}
           {/* Centers the stepper */}
-          <Stepper activeStep={currentStep} alternativeLabel>
+          {/* <Stepper
+          // activeStep={currentStep}
+          // alternativeLabel
+          >
             {steps.map((label) => (
-              <Step key={label}>
+              <Step
+                key={label}
+                indicator={
+                  <StepIndicator variant="solid" color="primary">
+                    <Check />
+                  </StepIndicator>
+                }
+              >
                 {" "}
-                <StepLabel>{/* {label} */}</StepLabel>{" "}
               </Step>
             ))}
-          </Stepper>
+          </Stepper> */}
         </Box>
         {currentStep < 3 && (
           <Button onClick={incrementStep} sx={{ margin: "10px" }} size="sm">

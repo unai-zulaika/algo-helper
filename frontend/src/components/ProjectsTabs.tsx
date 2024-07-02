@@ -19,8 +19,8 @@ export default function ProjectsTabs() {
             backgroundColor: "#dadedf",
           }}
         >
-          <Tab color={"neutral"}>First tab</Tab>
-          <Tab color={"neutral"}>Second tab</Tab>
+          <Tab color={"neutral"}>Exercise 1</Tab>
+          <Tab color={"neutral"}>Exercise 2</Tab>
         </TabList>
       </Tabs>
       <Divider sx={{ borderTop: "1px solid black" }} />

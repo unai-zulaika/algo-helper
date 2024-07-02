@@ -13,6 +13,11 @@ import ResizeableChat from "@/components/ResizeableChat";
 import CodeEditor from "@/components/CodeEditor";
 import Finished from "@/components/Finished";
 
+import IconButton from "@mui/joy/IconButton";
+import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
+import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import ResizeableDiagram from "@/components/ResizeableDiagram";
+
 const defaultExerciseData = {
   title: "Exercise title",
   description:
@@ -88,9 +93,18 @@ export default function MainLayout() {
             panelWidth={panelWidth}
             handleResizeStop={handleResizeStop} // Pass the function to the child component
             exerciseData={exerciseStatementData}
+            currentStep={currentStep}
           />
         );
       case 2:
+        return (
+          <ResizeableDiagram
+            panelWidth={panelWidth}
+            handleResizeStop={handleResizeStop} // Pass the function to the child component
+            currentStep={currentStep}
+          />
+        );
+      case 3:
         return (
           <ResizeableChat
             panelWidth={panelWidth}
@@ -149,19 +163,14 @@ export default function MainLayout() {
             orientation="vertical"
             sx={{ borderLeft: "1px solid black" }}
           />
-          {
-            isListVisible && renderResizeable(currentResizeableList)
-            // <ResizeableExercisesList
-            //   panelWidth={panelWidth}
-            //   handleResizeStop={handleResizeStop} // Pass the function to the child component
-            // />
-          }
+          {isListVisible && renderResizeable(currentResizeableList)}
           <Stack spacing={2} sx={{ flexGrow: 1 }}>
             <ProjectsTabs />
             {/* Wrap Statement in a div or another Stack for better control over its styling */}
             <div
               style={{
                 maxHeight: "calc(100vh - 20vh)",
+                minHeight: "calc(100vh - 20vh)",
                 overflowY: "scroll",
               }}
             >

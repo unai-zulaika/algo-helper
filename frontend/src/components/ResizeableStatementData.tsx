@@ -4,6 +4,7 @@ import ButtonGroup from "@mui/joy/ButtonGroup";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
 import Statement from "./Statement";
+import Typography from "@mui/joy/Typography";
 
 interface ResizeableExercisesListProps {
   panelWidth: number; // Define 'currentStep' as a number
@@ -14,12 +15,14 @@ interface ResizeableExercisesListProps {
     d: { width: number }
   ) => void;
   exerciseData: {};
+  currentStep: number;
 }
 
 export default function ResizeableExercisesList({
   panelWidth,
   handleResizeStop,
   exerciseData,
+  currentStep,
 }: ResizeableExercisesListProps) {
   return (
     <Resizable
@@ -47,9 +50,28 @@ export default function ResizeableExercisesList({
           flexGrow: 1,
           flexWrap: 1,
           overflowY: "scroll",
+          height: "100%",
         }}
       >
-        <Statement exerciseStatementData={exerciseData} />
+        {currentStep > 0 ? (
+          <Statement exerciseStatementData={exerciseData} />
+        ) : (
+          <Typography
+            variant="soft"
+            color="danger"
+            startDecorator="🚨"
+            fontSize="sm"
+            sx={{
+              "--Typography-gap": "0.5rem",
+              p: 1,
+              width: "100%",
+              height: "100%",
+              flexGrow: 1,
+            }}
+          >
+            You must finish the first step before.
+          </Typography>
+        )}
       </Stack>
     </Resizable>
   );

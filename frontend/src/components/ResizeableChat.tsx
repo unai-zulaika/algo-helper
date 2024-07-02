@@ -5,7 +5,7 @@ import Stack from "@mui/joy/Stack";
 import MessagesPane from "./MessagesPane";
 
 interface ResizeableExercisesListProps {
-  panelWidth: number; // Define 'currentStep' as a number
+  panelWidth: number;
   handleResizeStop: (
     _e: any,
     _direction: any,

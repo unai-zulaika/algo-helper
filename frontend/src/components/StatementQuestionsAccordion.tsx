@@ -8,7 +8,7 @@ import { Typography } from "@mui/joy";
 
 export default function AccordionBasic() {
   return (
-    <AccordionGroup sx={{ width: "50%", marginTop: 3 }}>
+    <AccordionGroup sx={{ width: "50%", marginTop: 3, flexGrow: 0 }}>
       <Accordion>
         <AccordionSummary>
           What data structure does the exercise require?

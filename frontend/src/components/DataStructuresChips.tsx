@@ -2,22 +2,19 @@ import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/joy/Box";
 import Checkbox from "@mui/joy/Checkbox";
 import Chip from "@mui/joy/Chip";
-import Radio from "@mui/joy/Radio";
-import RadioGroup from "@mui/joy/RadioGroup";
 import Typography from "@mui/joy/Typography";
 import * as React from "react";
 
 export default function CheckboxChip() {
-  const [selected, setSelected] = React.useState<string>([]);
+  const [selected, setSelected] = React.useState<string[]>([]);
 
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
       <div>
-        <RadioGroup
-          name="best-movie"
-          aria-labelledby="best-movie"
-          orientation="horizontal"
-          sx={{ flexWrap: "wrap", gap: 1 }}
+        <Box
+          role="group"
+          aria-labelledby="fav-movie"
+          sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}
         >
           {[
             "Array",
@@ -29,7 +26,7 @@ export default function CheckboxChip() {
             "Binary search tree",
             "RL siblings tree",
           ].map((name) => {
-            const checked = selected === name;
+            const checked = selected.includes(name);
             return (
               <Chip
                 key={name}
@@ -41,24 +38,25 @@ export default function CheckboxChip() {
                   )
                 }
               >
-                <Radio
+                <Checkbox
                   variant="outlined"
                   color={checked ? "primary" : "neutral"}
                   disableIcon
                   overlay
                   label={name}
-                  value={name}
                   checked={checked}
                   onChange={(event) => {
-                    if (event.target.checked) {
-                      setSelected(name);
-                    }
+                    setSelected((names) =>
+                      !event.target.checked
+                        ? names.filter((n) => n !== name)
+                        : [...names, name]
+                    );
                   }}
                 />
               </Chip>
             );
           })}
-        </RadioGroup>
+        </Box>
       </div>
     </Box>
   );

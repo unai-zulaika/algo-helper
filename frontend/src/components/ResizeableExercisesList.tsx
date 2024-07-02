@@ -44,9 +44,8 @@ export default function ResizeableExercisesList({
           variant="plain"
           sx={{ width: "100%" }}
         >
-          <Button color="primary">One</Button>
-          <Button>Two</Button>
-          <Button>Three</Button>
+          <Button color="primary">Exercise 1</Button>
+          <Button>Exercise 2</Button>
         </ButtonGroup>
       </Stack>
     </Resizable>

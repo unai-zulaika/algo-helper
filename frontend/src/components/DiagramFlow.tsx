@@ -37,7 +37,7 @@ export default function DiagramFlow() {
         onConnect={onConnect}
       >
         <Controls />
-        <MiniMap />
+        {/* <MiniMap /> */}
         <Background variant="dots" gap={12} size={1} />
       </ReactFlow>
     </div>
