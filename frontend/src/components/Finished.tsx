@@ -67,11 +67,11 @@ export default function Finished({
           Also, you could think about other possible solutions for the same
           problem.
         </Typography>
-        <Button size="lg" endDecorator={<ArrowForward fontSize="xl" />}>
+        <Button size="lg" endDecorator={<ArrowForward />}>
           Start another exercise
         </Button>
 
-        <Button size="lg" endDecorator={<ArrowForward fontSize="xl" />}>
+        <Button size="lg" endDecorator={<ArrowForward />}>
           Export to PDF
         </Button>
       </Box>

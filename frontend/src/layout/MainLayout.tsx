@@ -31,7 +31,10 @@ const defaultExerciseData = {
 };
 
 export default function MainLayout() {
-  const [exerciseStatementData, setExerciseStatementData] = useState({});
+  const [exerciseStatementData, setExerciseStatementData] = useState({
+    title: "",
+    description: "",
+  });
   const [isListVisible, setIsListVisible] = useState(true);
   const toggleListVisibility = () => setIsListVisible(!isListVisible);
   const [panelWidth, setPanelWidth] = useState<number>(320); // Initial width of the panel

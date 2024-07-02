@@ -14,7 +14,10 @@ interface ResizeableExercisesListProps {
     _ref: any,
     d: { width: number }
   ) => void;
-  exerciseData: {};
+  exerciseData: {
+    title: string;
+    description: string;
+  };
   currentStep: number;
 }
 
