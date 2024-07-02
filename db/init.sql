@@ -1,11 +1,11 @@
 -- Create the algo-helper database
-CREATE DATABASE "algo-helper";
+-- CREATE DATABASE "algohelper";
 
 -- Connect to the algo-helper database
-\c "algo-helper";
+\c "algohelper";
 
--- Create the USER table
-CREATE TABLE "USER" (
+-- Create the ALGOUSER table
+CREATE TABLE "ALGOUSER" (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -24,19 +24,19 @@ CREATE TABLE "USER_EXERCISE" (
     user_id INT NOT NULL,
     exercise_id INT NOT NULL,
     PRIMARY KEY (user_id, exercise_id),
-    FOREIGN KEY (user_id) REFERENCES "USER"(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES "ALGOUSER"(id) ON DELETE CASCADE,
     FOREIGN KEY (exercise_id) REFERENCES "EXERCISE"(id) ON DELETE CASCADE
 );
 
--- Insert some example data into USER table
-INSERT INTO "USER" (username, email, password, settings) VALUES
+-- Insert some example data into ALGOUSER table
+INSERT INTO "ALGOUSER" (username, email, settings) VALUES
 ('john_doe', 'john@example.com', '{"theme": "dark", "notifications": true}'),
 ('jane_smith', 'jane@example.com', '{"theme": "light", "notifications": false}');
 
 -- Insert some example data into EXERCISE table
-INSERT INTO "EXERCISE" (name, description, exercisedata) VALUES
-('Push-ups', 'A basic upper body exercise', '{"title": 10, "description": 3}'),
-('Squats', 'A fundamental lower body exercise', '{"title": 15, "description": 3}');
+INSERT INTO "EXERCISE" (name, exercisedata) VALUES
+('Push-ups', '{"title": 10, "description": 3}'),
+('Squats', '{"title": 15, "description": 3}');
 
 -- Insert some example data into USER_EXERCISE table
 INSERT INTO "USER_EXERCISE" (user_id, exercise_id) VALUES
