@@ -70,11 +70,11 @@ export default function HeaderBar() {
       }}
     >
       <img
-        src="	https://seeklogo.com/images/U/universidad-de-deusto-logo-790FC33A0F-seeklogo.com.png"
+        src="https://labsland.com/images/about/deusto.png"
         alt="Logo"
         style={{
-          width: 100,
-          height: "auto",
+          width: "auto",
+          height: "40px",
         }}
       />
       <Box

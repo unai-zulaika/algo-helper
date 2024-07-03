@@ -18,21 +18,20 @@ const app: Express = express();
 const pgp = pgPromise({
   /* Initialization Options */
 });
-const db = pgp("postgres://myuser:mypassword@localhost:5432/mydatabase");
+const db = pgp("postgres://myuser:mypassword@localhost:5432/algohelper");
 
 async function getExercisesForUser(username: string): Promise<Exercise[]> {
   const query = `
       SELECT 
         e.id AS exercise_id,
         e.name AS exercise_name,
-        e.description,
         e.exercisedata
       FROM 
-        "USER" u
+        ALGOUSER u
       JOIN 
-        "USER_EXERCISE" ue ON u.id = ue.user_id
+        USER_EXERCISE ue ON u.id = ue.user_id
       JOIN 
-        "EXERCISE" e ON ue.exercise_id = e.id
+        EXERCISE e ON ue.exercise_id = e.id
       WHERE 
         u.username = $1;
     `;
@@ -58,14 +57,6 @@ async function getExercisesForUser(username: string): Promise<Exercise[]> {
     pgp.end(); // Close the database connection
   }
 })();
-
-db.one("SELECT $1 AS value", 123)
-  .then(function (data) {
-    console.log("DATA:", data.value);
-  })
-  .catch(function (error) {
-    console.log("ERROR:", error);
-  });
 
 // Set the application to trust the reverse proxy
 app.set("trust proxy", true);

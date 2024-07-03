@@ -3,7 +3,7 @@ import { Box, Stepper, Step, Stack, StepIndicator } from "@mui/joy";
 import { Button, Divider, Link } from "@mui/joy";
 import { Check } from "@mui/icons-material";
 
-const steps = ["Step 1", "Step 2", "Step 3", "Step 4"];
+const steps = [1, 2, 3, 4];
 
 interface FooterBarProps {
   currentStep: number; // Define 'currentStep' as a number
@@ -45,23 +45,30 @@ export default function FooterBar({
         >
           {" "}
           {/* Centers the stepper */}
-          {/* <Stepper
+          <Stepper
           // activeStep={currentStep}
           // alternativeLabel
           >
             {steps.map((label) => (
               <Step
                 key={label}
+                completed={label < currentStep}
                 indicator={
-                  <StepIndicator variant="solid" color="primary">
-                    <Check />
-                  </StepIndicator>
+                  label - 1 == currentStep ? (
+                    <StepIndicator variant="solid" color="primary">
+                      {label <= currentStep ? <Check color="success" /> : label}
+                    </StepIndicator>
+                  ) : (
+                    <StepIndicator variant="solid">
+                      {label <= currentStep ? <Check /> : label}
+                    </StepIndicator>
+                  )
                 }
               >
                 {" "}
               </Step>
             ))}
-          </Stepper> */}
+          </Stepper>
         </Box>
         {currentStep < 3 && (
           <Button onClick={incrementStep} sx={{ margin: "10px" }} size="sm">
