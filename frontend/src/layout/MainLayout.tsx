@@ -30,6 +30,37 @@ const defaultExerciseData = {
   ],
 };
 
+const userData = {
+  id: 1,
+  username: "john_doe",
+  email: "john@example.com",
+  settings: {
+    theme: "dark",
+    notifications: true,
+  },
+};
+
+const userExercises = [
+  {
+    exercise_id: 1,
+    exercise_name: "Bubble Sort",
+    exercisedata: {
+      title: "Bubble Sort",
+      description:
+        "Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in the wrong order. This algorithm is not suitable for large data sets as its average and worst-case time complexity is quite high.",
+    },
+  },
+  {
+    exercise_id: 2,
+    exercise_name: "Reverse linked list",
+    exercisedata: {
+      title: "Reverse linked list",
+      description:
+        "Given a pointer to the head node of a linked list, the task is to reverse the linked list. We need to reverse the list by changing the links between nodes.",
+    },
+  },
+];
+
 export default function MainLayout() {
   const [exerciseStatementData, setExerciseStatementData] = useState({
     title: "",
@@ -40,6 +71,7 @@ export default function MainLayout() {
   const [panelWidth, setPanelWidth] = useState<number>(320); // Initial width of the panel
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [currentResizeableList, setCurrentResizeableList] = useState<number>(0);
+  const [userExercises, setUserExercises] = useState<any[]>([]);
 
   const handleResizeStop = (
     _e: any,
@@ -128,6 +160,16 @@ export default function MainLayout() {
   React.useEffect(() => {
     // TODO: remove this
     setExerciseStatementData(defaultExerciseData);
+
+    const initUserExercises = async (id: number) => {
+      const data = await fetch("http://localhost:8080/users/1", {
+        method: "GET",
+      });
+      const jsonData = await data.json();
+      setUserExercises(jsonData.responseObject);
+      console.log(jsonData.responseObject);
+    };
+    initUserExercises(userData.id);
   }, []);
 
   return (

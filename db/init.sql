@@ -35,8 +35,16 @@ INSERT INTO ALGOUSER (username, email, settings) VALUES
 
 -- Insert some example data into EXERCISE table
 INSERT INTO EXERCISE (name, exercisedata) VALUES
-('Push-ups', '{"title": 10, "description": 3}'),
-('Squats', '{"title": 15, "description": 3}');
+('Reverse linked list', '{
+      title: "Reverse linked list",
+      description:
+        "Given a pointer to the head node of a linked list, the task is to reverse the linked list. We need to reverse the list by changing the links between nodes.",
+    }'),
+('Bubble Sort', '{
+      title: "Bubble Sort",
+      description:
+        "Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in the wrong order. This algorithm is not suitable for large data sets as its average and worst-case time complexity is quite high.",
+    }');
 
 -- Insert some example data into USER_EXERCISE table
 INSERT INTO USER_EXERCISE (user_id, exercise_id) VALUES

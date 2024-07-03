@@ -80,6 +80,21 @@ export default function HeaderBar() {
       <Box
         sx={{
           display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography
+          level="title-md"
+          textColor="text.primary"
+          sx={{ justifySelf: "center" }}
+        >
+          Algo Helper - Deusto
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
           flexDirection: "row",
           gap: 1.5,
           alignItems: "center",
