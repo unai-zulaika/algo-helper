@@ -23,6 +23,7 @@ interface StatementProps {
 }
 
 export default function Statement({ exerciseStatementData }: StatementProps) {
+  console.log(exerciseStatementData);
   return (
     <Box
       sx={{

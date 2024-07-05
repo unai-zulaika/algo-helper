@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import SideBar from "@/components/SideBar";
 import HeaderBar from "@/components/HeaderBar";
 import Divider from "@mui/joy/Divider";
@@ -13,9 +13,10 @@ import ResizeableChat from "@/components/ResizeableChat";
 import CodeEditor from "@/components/CodeEditor";
 import Finished from "@/components/Finished";
 
-import IconButton from "@mui/joy/IconButton";
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded";
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded";
+import { client } from "@/app/page";
+
+import { useQuery, gql } from "@apollo/client";
+
 import ResizeableDiagram from "@/components/ResizeableDiagram";
 
 const defaultExerciseData = {
@@ -72,6 +73,12 @@ export default function MainLayout() {
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [currentResizeableList, setCurrentResizeableList] = useState<number>(0);
   const [userExercises, setUserExercises] = useState<any[]>([]);
+  const [activeExercise, setActiveExercise] = useState("1");
+
+  function onExerciseClick(exerciseKey: string) {
+    // Update the activeExercise state with the new key
+    setActiveExercise(exerciseKey);
+  }
 
   const handleResizeStop = (
     _e: any,
@@ -120,6 +127,9 @@ export default function MainLayout() {
           <ResizeableExercisesList
             panelWidth={panelWidth}
             handleResizeStop={handleResizeStop} // Pass the function to the child component
+            arrayUserExercises={userExercises}
+            onExerciseClick={onExerciseClick}
+            activeExercise={activeExercise}
           />
         );
       case 1:
@@ -151,6 +161,9 @@ export default function MainLayout() {
           <ResizeableExercisesList
             panelWidth={panelWidth}
             handleResizeStop={handleResizeStop} // Pass the function to the child component
+            arrayUserExercises={userExercises}
+            onExerciseClick={onExerciseClick}
+            activeExercise={activeExercise}
           />
         );
     }
@@ -161,16 +174,32 @@ export default function MainLayout() {
     // TODO: remove this
     setExerciseStatementData(defaultExerciseData);
 
-    const initUserExercises = async (id: number) => {
-      const data = await fetch("http://localhost:8080/users/1", {
-        method: "GET",
-      });
-      const jsonData = await data.json();
-      setUserExercises(jsonData.responseObject);
-      console.log(jsonData.responseObject);
-    };
-    initUserExercises(userData.id);
+    const GET_USER_EXERCISES = gql`
+      query UserExercises {
+        userExercises(userId: 1) {
+          name
+          id
+          exercisedata {
+            title
+            description
+          }
+        }
+      }
+    `;
+
+    client
+      .query({ query: GET_USER_EXERCISES })
+      .then((result) => setUserExercises(result.data.userExercises));
   }, []);
+
+  React.useEffect(() => {
+    // TODO: remove this
+    console.log(userExercises);
+    if (userExercises.length > 0)
+      setExerciseStatementData(
+        userExercises[parseInt(activeExercise) - 1].exercisedata
+      ); // Update the statement data based on the active exercise
+  }, [activeExercise]);
 
   return (
     <Stack
@@ -179,7 +208,6 @@ export default function MainLayout() {
         margin: 0,
         padding: 0,
         flex: "1 1 0",
-        // maxHeight: "100vh",
         flexWrap: "wrap",
       }}
     >
@@ -210,7 +238,11 @@ export default function MainLayout() {
           />
           {isListVisible && renderResizeable(currentResizeableList)}
           <Stack spacing={2} sx={{ flexGrow: 1 }}>
-            <ProjectsTabs />
+            <ProjectsTabs
+              arrayUserExercises={userExercises}
+              onExerciseClick={onExerciseClick}
+              activeExercise={activeExercise}
+            />
             {/* Wrap Statement in a div or another Stack for better control over its styling */}
             <div
               style={{

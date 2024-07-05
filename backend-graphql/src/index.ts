@@ -1,23 +1,22 @@
-import express from "express";
-import { graphqlHTTP } from "express-graphql";
-import { schema } from "./graphql/schema";
-import { root } from "./graphql/resolvers";
-import dotenv from "dotenv";
+// import dotenv from "dotenv";
+import { env } from "./common/utils/envConfig";
+import { app, logger } from "./server";
 
-dotenv.config();
+// dotenv.config();
 
-const app = express();
-const port = process.env.PORT || 4000;
-
-app.use(
-  "/graphql",
-  graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-  })
-);
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}/graphql`);
+const server = app.listen(env.PORT, () => {
+  const { NODE_ENV, HOST, PORT } = env;
+  logger.info(`Server (${NODE_ENV}) running on port http://${HOST}:${PORT}`);
 });
+
+const onCloseSignal = () => {
+  logger.info("sigint received, shutting down");
+  server.close(() => {
+    logger.info("server closed");
+    process.exit();
+  });
+  setTimeout(() => process.exit(1), 10000).unref(); // Force shutdown after 10s
+};
+
+process.on("SIGINT", onCloseSignal);
+process.on("SIGTERM", onCloseSignal);

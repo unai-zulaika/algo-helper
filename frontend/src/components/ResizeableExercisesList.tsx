@@ -3,6 +3,7 @@ import { Resizable } from "re-resizable";
 import ButtonGroup from "@mui/joy/ButtonGroup";
 import Stack from "@mui/joy/Stack";
 import Button from "@mui/joy/Button";
+import { useEffect, useState } from "react";
 
 interface ResizeableExercisesListProps {
   panelWidth: number; // Define 'currentStep' as a number
@@ -12,12 +13,25 @@ interface ResizeableExercisesListProps {
     _ref: any,
     d: { width: number }
   ) => void;
+  arrayUserExercises: any; // TODO
+  onExerciseClick: (exerciseId: string) => void;
+  activeExercise: string;
 }
 
 export default function ResizeableExercisesList({
   panelWidth,
   handleResizeStop,
+  arrayUserExercises,
+  onExerciseClick,
+  activeExercise,
 }: ResizeableExercisesListProps) {
+  // Step 2: Define state for userExercises
+  const [userExercises, setUserExercises] = useState(arrayUserExercises);
+
+  // Step 3: Update state on change
+  useEffect(() => {
+    setUserExercises(arrayUserExercises);
+  }, [arrayUserExercises]); // Dependency array ensures effect runs only when initialUserExercises changes
   return (
     <Resizable
       handleClasses={{
@@ -44,8 +58,15 @@ export default function ResizeableExercisesList({
           variant="plain"
           sx={{ width: "100%" }}
         >
-          <Button color="primary">Exercise 1</Button>
-          <Button>Exercise 2</Button>
+          {userExercises.map((userExercise: any) => (
+            <Button
+              key={userExercise.id}
+              color={userExercise.id === activeExercise ? "primary" : "neutral"}
+              onClick={() => onExerciseClick(userExercise.id)}
+            >
+              {userExercise.name}
+            </Button>
+          ))}
         </ButtonGroup>
       </Stack>
     </Resizable>
