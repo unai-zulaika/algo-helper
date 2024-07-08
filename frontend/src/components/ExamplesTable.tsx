@@ -30,7 +30,7 @@ function createData(input: string, output: string): Data {
   };
 }
 
-const rows = [
+const initialRows = [
   createData("A = [3, 7, 1, 5, 2]", "A = [1, 2, 3, 5, 7]"),
   createData("A = [3, 8, 1, 5, 2]", "A = [1, 2, 3, 5, 8]"),
 ];
@@ -213,10 +213,12 @@ function EnhancedTableHead(props: EnhancedTableProps) {
 
 interface EnhancedTableToolbarProps {
   numSelected: number;
+  onAddRow: () => void;
+  onDeleteSelected: () => void;
 }
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-  const { numSelected } = props;
+  const { numSelected, onAddRow, onDeleteSelected } = props;
 
   return (
     <Box
@@ -249,13 +251,23 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton size="sm" color="danger" variant="solid">
+          <IconButton
+            size="sm"
+            color="danger"
+            variant="solid"
+            onClick={onDeleteSelected}
+          >
             <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Add">
-          <IconButton size="sm" color="primary" variant="outlined">
+          <IconButton
+            size="sm"
+            color="primary"
+            variant="outlined"
+            onClick={onAddRow}
+          >
             <AddCircleIcon />
           </IconButton>
         </Tooltip>
@@ -270,6 +282,9 @@ export default function TableSortAndSelection() {
   const [selected, setSelected] = React.useState<readonly string[]>([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rows, setRows] = React.useState(initialRows);
+  const [addingRow, setAddingRow] = React.useState(false);
+  const [newRow, setNewRow] = React.useState<Data>({ input: "", output: "" });
 
   const handleRequestSort = (
     event: React.MouseEvent<unknown>,
@@ -329,6 +344,26 @@ export default function TableSortAndSelection() {
 
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
+  const handleAddRow = () => {
+    setAddingRow(true);
+  };
+
+  const handleNewRowChange =
+    (field: keyof Data) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setNewRow({ ...newRow, [field]: event.target.value });
+    };
+
+  const handleConfirmAddRow = () => {
+    setRows([...rows, createData(newRow.input, newRow.output)]);
+    setAddingRow(false);
+    setNewRow({ input: "", output: "" });
+  };
+
+  const handleDeleteSelected = () => {
+    setRows(rows.filter((row) => !selected.includes(row.input)));
+    setSelected([]);
+  };
+
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -336,7 +371,11 @@ export default function TableSortAndSelection() {
   return (
     <Resizable>
       <Sheet variant="outlined" sx={{ boxShadow: "sm", borderRadius: "sm" }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          onAddRow={handleAddRow}
+          onDeleteSelected={handleDeleteSelected}
+        />
         <Table
           aria-labelledby="tableTitle"
           hoverRow
@@ -418,6 +457,32 @@ export default function TableSortAndSelection() {
                 }
               >
                 <td colSpan={6} aria-hidden />
+              </tr>
+            )}
+            {addingRow && (
+              <tr>
+                <td>
+                  <Checkbox disabled />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={newRow.input}
+                    onChange={handleNewRowChange("input")}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    value={newRow.output}
+                    onChange={handleNewRowChange("output")}
+                  />
+                </td>
+                <td>
+                  <IconButton onClick={handleConfirmAddRow} color="primary">
+                    OK
+                  </IconButton>
+                </td>
               </tr>
             )}
           </tbody>
