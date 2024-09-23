@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Algorithm Helper",
-  description: "have better time learning algorithms",
+  description: "Have better time learning algorithms!",
 };
 
 export default function RootLayout({

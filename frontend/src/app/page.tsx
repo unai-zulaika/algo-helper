@@ -12,6 +12,7 @@ import {
 import { CssVarsProvider, extendTheme } from "@mui/joy/styles";
 import CssBaseline from "@mui/joy/CssBaseline";
 import framesxTheme from "../app/theme";
+import Login from "@/app/login/page";
 
 export const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
@@ -27,7 +28,8 @@ export default function Home() {
           // className={styles.main}
           style={{ height: "100%" }}
         >
-          <MainLayout />
+          {/* <MainLayout /> */}
+          <Login />
         </main>
       </CssVarsProvider>
     </ApolloProvider>
